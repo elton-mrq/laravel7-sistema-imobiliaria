@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TipoController;
 use App\Http\Controllers\Admin\CidadeController;
 use App\Http\Controllers\Admin\ImovelController;
 use App\Http\Controllers\Admin\GaleriaController;
+use App\Http\Controllers\Admin\SlideController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,9 +25,7 @@ use App\Http\Controllers\Admin\GaleriaController;
 
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
 
-Route::get('imovel/{id}/{titulo?}', function () {
-    return view('site.imovel');
-})->name('site.imovel');
+Route::get('imovel/{id}/{titulo?}', [SiteImovelController::class, 'index'])->name('site.imovel');
 
 Route::get('/sobre', [PaginaController::class, 'sobre'])->name('site.sobre');
 
@@ -84,6 +83,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/galerias/editar/{id}', [GaleriaController::class, 'editar'])->name('admin.galerias.editar');
     Route::put('/admin/galerias/atualizar/{id}', [GaleriaController::class, 'atualizar'])->name('admin.galerias.atualizar');
     Route::get('/admin/galerias/deletar/{id}', [GaleriaController::class, 'deletar'])->name('admin.galerias.deletar');
+
+    Route::get('/admin/slides', [SlideController::class, 'index'])->name('admin.slides');
+    Route::get('/admin/slides/adicionar', [SlideController::class, 'adicionar'])->name('admin.slides.adicionar');
+    Route::post('/admin/slides/salvar', [SlideController::class, 'salvar'])->name('admin.slides.salvar');
+    Route::get('/admin/slides/editar/{id}', [SlideController::class, 'editar'])->name('admin.slides.editar');
+    Route::put('/admin/slides/atualizar/{id}', [SlideController::class, 'atualizar'])->name('admin.slides.atualizar');
+    Route::get('/admin/slides/deletar/{id}', [SlideController::class, 'deletar'])->name('admin.slides.deletar');
 
     Route::get('/admin/paginas', [PaginaAdminController::class, 'index'])->name('admin.paginas');
     Route::get('/admin/paginas/editar/{id}', [PaginaAdminController::class, 'editar'])->name('admin.paginas.editar');
