@@ -23,15 +23,15 @@
             <form action="{{route('site.contato.enviar')}}" method="POST" class="col s12">
                 {{ csrf_field() }}
                 <div class="input-field">
-                    <input type="text" class="validate" name="nome">
+                    <input type="text" class="validate" name="nome" required>
                     <label for="nome">Nome</label>
                 </div>
                 <div class="input-field">
-                    <input type="email" class="validate" name="email">
+                    <input type="email" class="validate" name="email" required>
                     <label for="email">Email</label>
                 </div>
                 <div class="input-field">
-                    <textarea name="mensagem" class="materialize-textarea"></textarea>
+                    <textarea name="mensagem" class="materialize-textarea" required></textarea>
                     <label for="mensagem">Mensagem</label>
                 </div>
                 <button class="btn blue">Enviar</button>

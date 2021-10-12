@@ -25,7 +25,9 @@ use App\Http\Controllers\Admin\SlideController;
 
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
 
-Route::get('imovel/{id}/{titulo?}', [SiteImovelController::class, 'index'])->name('site.imovel');
+Route::get('/imovel/{id}/{titulo?}', [SiteImovelController::class, 'index'])->name('site.imovel');
+
+Route::get('/busca', [HomeController::class, 'busca'])->name('site.busca');
 
 Route::get('/sobre', [PaginaController::class, 'sobre'])->name('site.sobre');
 
