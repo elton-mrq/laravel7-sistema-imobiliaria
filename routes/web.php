@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CidadeController;
 use App\Http\Controllers\Admin\ImovelController;
 use App\Http\Controllers\Admin\GaleriaController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\PerfilController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,13 +36,12 @@ Route::get('/contato', [PaginaController::class, 'contato'])->name('site.contato
 Route::post('/contato/enviar', [PaginaController::class, 'enviarContato'])->name('site.contato.enviar');
 
 
-
 /* Rotas do Sistema de Administração */
 Route::get('/admin/logar', function () {
     return view('admin.login.index');
 })->name('admin.logar');
 
-Route::post('adim/login', [UsuarioController::class, 'login'])->name('admin.login');
+Route::post('admin/login', [UsuarioController::class, 'login'])->name('admin.login');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -57,6 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/usuarios/editar/{id}', [UsuarioController::class, 'editar'])->name('admin.usuarios.editar');
     Route::put('/admin/usuarios/atualizar/{id}', [UsuarioController::class, 'atualizar'])->name('admin.usuarios.atualizar');
     Route::get('/admin/usuarios/deletar/{id}', [UsuarioController::class, 'deletar'])->name('admin.usuarios.deletar');
+
+    Route::get('/admin/usuarios/perfil/{id}', [UsuarioController::class, 'perfil'])->name('admin.usuarios.perfil');
+    Route::post('/admin/usuarios/perfil/salvar/{id}', [UsuarioController::class, 'salvarPerfil'])->name('admin.usuarios.perfil.salvar');
+    Route::get('/admin/usuarios/perfil/remover/{id}/{id_perfil}', [UsuarioController::class, 'removerPerfil'])->name('admin.usuarios.perfil.remover');
 
     Route::get('/admin/tipos', [TipoController::class, 'index'])->name('admin.tipos');
     Route::get('/admin/tipos/adicionar', [TipoController::class, 'adicionar'])->name('admin.tipos.adicionar');
@@ -92,6 +96,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/slides/editar/{id}', [SlideController::class, 'editar'])->name('admin.slides.editar');
     Route::put('/admin/slides/atualizar/{id}', [SlideController::class, 'atualizar'])->name('admin.slides.atualizar');
     Route::get('/admin/slides/deletar/{id}', [SlideController::class, 'deletar'])->name('admin.slides.deletar');
+
+    Route::get('/admin/perfil', [PerfilController::class, 'index'])->name('admin.perfil');
+    Route::get('/admin/perfil/adicionar', [PerfilController::class, 'adicionar'])->name('admin.perfil.adicionar');
+    Route::post('/admin/perfil/salvar', [PerfilController::class, 'salvar'])->name('admin.perfil.salvar');
+    Route::get('/admin/perfil/editar/{id}', [PerfilController::class, 'editar'])->name('admin.perfil.editar');
+    Route::put('/admin/perfil/atualizar/{id}', [PerfilController::class, 'atualizar'])->name('admin.perfil.atualizar');
+    Route::get('/admin/perfil/deletar/{id}', [PerfilController::class, 'deletar'])->name('admin.perfil.deletar');
+
+    Route::get('/admin/perfil/permissao/{id}', [PerfilController::class, 'permissao'])->name('admin.perfil.permissao');
+    Route::post('/admin/perfil/permissao/salvar/{id}', [PerfilController::class, 'salvarPermissao'])->name('admin.perfil.permissao.salvar');
+    Route::get('/admin/perfil/permissao/remover/{id}/{id_permissao}', [PerfilController::class, 'removerPermissao'])->name('admin.perfil.permissao.remover');
 
     Route::get('/admin/paginas', [PaginaAdminController::class, 'index'])->name('admin.paginas');
     Route::get('/admin/paginas/editar/{id}', [PaginaAdminController::class, 'editar'])->name('admin.paginas.editar');

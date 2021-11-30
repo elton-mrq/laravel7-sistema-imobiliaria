@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Perfil;
 
 class User extends Authenticatable
 {
@@ -36,4 +37,37 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function listaPerfil()
+    {
+        return $this->belongsToMany('App\Perfil');
+    }
+
+    public function adicionaPerfil($perfil)
+    {
+        //se for string
+        if(is_string($perfil)){
+            return $this->listaPerfil()->save(
+                Perfil::where('nome', '=', $perfil)->firstOrFail()
+            );
+        }
+
+        //se for um objeto
+        return $this->listaPerfil()->save(
+            Perfil::where('nome', '=', $perfil->nome)->firstOrFail()
+        );
+    }
+
+    public function removePerfil($perfil)
+    {
+        if(is_string($perfil)){
+            return $this->listaPerfil()->detach(
+                Perfil::where('nome', '=', $perfil)->firstOrFail()
+            );
+        }
+
+        return $this->listaPerfil()->detach(
+            Perfil::where('nome', '=', $perfil->nome)->firstOrFail()
+        );
+    }
 }

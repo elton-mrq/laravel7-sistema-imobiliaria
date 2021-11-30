@@ -12,10 +12,19 @@ class UsuariosSeeds extends Seeder
      */
     public function run()
     {
-        $usuario = new User();
-        $usuario->name = "Elton Marques";
-        $usuario->email = "eltonmrq@gmail.com";
-        $usuario->password = bcrypt('1234');
-        $usuario->save();
+        if(!User::where('email', '=', 'eltonmrq@gmail.com')->count()){
+            $usuario = new User();
+            $usuario->name = "Elton Marques";
+            $usuario->email = "eltonmrq@gmail.com";
+            $usuario->password = bcrypt('1234');
+            $usuario->save();
+        }else {
+            $usuario = User::where('email', '=', 'eltonmrq@gmail.com')->first();
+            $usuario->name = "Elton Marques";
+            $usuario->email = "eltonmrq@gmail.com";
+            $usuario->password = bcrypt('1234');
+            $usuario->update();
+        }
+
     }
 }

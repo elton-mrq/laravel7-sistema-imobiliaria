@@ -32,6 +32,7 @@
                             <td>{{ $usuario->email }}</td>
                             <td>
                                 <a href="{{ route('admin.usuarios.editar', $usuario->id) }}" class="btn orange">Editar</a>
+                                <a href="{{ route('admin.usuarios.perfil', $usuario->id) }}" class="btn blue">Perfis</a>
                                 <a href="javascript: if(confirm('Deseja realmente deletar o registro?')){ window.location.href='{{ route('admin.usuarios.deletar', $usuario->id) }}' }" class="btn red">Excluir</a>
                             </td>
                         </tr>

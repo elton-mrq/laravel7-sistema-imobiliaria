@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Session;
 use App\User;
+use App\Perfil;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +43,11 @@ class UsuarioController extends Controller
 
     public function index()
     {
+        if(Gate::allows('listar-usuarios', true)){
+            dd('autorizado');
+        }else {
+            dd('não autorizado');
+        }
         $usuarios = User::all();
         return view('admin.usuarios.index', compact('usuarios'));
     }
@@ -106,5 +113,30 @@ class UsuarioController extends Controller
 
 
         return redirect(route('admin.usuarios'))->with('status', $mensagem);
+    }
+
+    public function perfil($id)
+    {
+        $usuario    = User::find($id);
+        $perfis     = Perfil::all();
+
+        return view('admin.usuarios.perfis', compact('usuario', 'perfis'));
+    }
+
+    public function salvarPerfil(Request $request, $id)
+    {
+        $usuario    = User::find($id);
+        $dados      = $request->all();
+        $perfil     = Perfil::find($dados['perfil_id']);
+        $usuario->adicionaPerfil($perfil);
+        return redirect()->back();
+    }
+
+    public function removerPerfil($id, $perfil_id)
+    {
+        $usuario    = User::find($id);
+        $perfil     = Perfil::find($perfil_id);
+        $usuario->removePerfil($perfil);
+        return redirect()->back();
     }
 }
