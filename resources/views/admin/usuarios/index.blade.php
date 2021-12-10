@@ -31,9 +31,15 @@
                             <td>{{ $usuario->name }}</td>
                             <td>{{ $usuario->email }}</td>
                             <td>
-                                <a href="{{ route('admin.usuarios.editar', $usuario->id) }}" class="btn orange">Editar</a>
+                                @can('usuario_editar')
+                                    <a href="{{ route('admin.usuarios.editar', $usuario->id) }}" class="btn orange">Editar</a>
+                                @endcan
+
                                 <a href="{{ route('admin.usuarios.perfil', $usuario->id) }}" class="btn blue">Perfis</a>
-                                <a href="javascript: if(confirm('Deseja realmente deletar o registro?')){ window.location.href='{{ route('admin.usuarios.deletar', $usuario->id) }}' }" class="btn red">Excluir</a>
+
+                                @can('usuario_deletar')
+                                    <a href="javascript: if(confirm('Deseja realmente deletar o registro?')){ window.location.href='{{ route('admin.usuarios.deletar', $usuario->id) }}' }" class="btn red">Excluir</a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

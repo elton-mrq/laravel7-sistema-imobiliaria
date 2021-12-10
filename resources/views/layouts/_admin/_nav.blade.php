@@ -15,8 +15,13 @@
 
                         <ul id="dropdown1" class="dropdown-content">
                             <li><a href="#">{{Auth::user()->name}}</a></li>
-                            <li><a href="{{route('admin.usuarios')}}">Usuários</a></li>
-                            <li><a href="{{route('admin.perfil')}}">Perfis de Usuários</a></li>
+                            @can('usuario_listar')
+                                <li><a href="{{route('admin.usuarios')}}">Usuários</a></li>
+                            @endcan
+                            @can('perfil_listar')
+                                <li><a href="{{route('admin.perfil')}}">Perfis de Usuários</a></li>
+                            @endcan
+
                             <li><a href="{{route('admin.paginas')}}">Páginas</a></li>
                             <li><a href="{{route('admin.tipos')}}">Tipos</a></li>
                             <li><a href="{{route('admin.cidades')}}">Cidades</a></li>

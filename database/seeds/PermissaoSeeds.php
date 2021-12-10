@@ -63,5 +63,57 @@ class PermissaoSeeds extends Seeder
                 'descricao'     => 'Deletar usuários'
             ]);
         }
+
+        if(!Permissao::where('nome', '=', 'perfil_listar')->count()){
+            Permissao::create([
+                'nome'          => 'perfil_listar',
+                'descricao'     => 'Listar perfis cadastrados'
+            ]);
+        }else{
+            $permissao = Permissao::where('nome', '=', 'perfil_listar')->first();
+            $permissao->update([
+                'nome'          => 'perfil_listar',
+                'descricao'     => 'Listar perfis cadastrados'
+            ]);
+        }
+
+        if(!Permissao::where('nome', '=', 'perfil_adicionar')->count()){
+            Permissao::create([
+                'nome'          => 'perfil_adicionar',
+                'descricao'     => 'Adicionar perfis'
+            ]);
+        }else {
+            $permissao = Permissao::where('nome', '=', 'perfil_adicionar')->first();
+            $permissao->update([
+                'nome'          => 'perfil_adicionar',
+                'descricao'     => 'Adicionar perfis'
+            ]);
+        }
+
+        if(!Permissao::where('perfil_editar', '=', 'perfil_editar')->count()){
+            Permissao::create([
+                'nome'          => 'perfil_editar',
+                'descricao'     => 'Editar perfis'
+            ]);
+        } else{
+            $permissao = Permissao::where('nome', '=', 'perfil_editar')->first();
+            $permissao->update([
+                'nome'          => 'perfil_editar',
+                'descricao'     => 'Editar perfis'
+            ]);
+        }
+
+        if(!Permissao::where('nome', '=', 'perfil_deletar')->count()){
+            Permissao::create([
+                'nome'          => 'perfil_deletar',
+                'descricao'     => 'Deletar perfis'
+            ]);
+        } else{
+            $permissao = Permissao::where('nome', '=', 'perfil_deletar')->first();
+            $permissao->update([
+                'nome'          => 'perfil_deletar',
+                'descricao'     => 'Deletar perfis'
+            ]);
+        }
     }
 }

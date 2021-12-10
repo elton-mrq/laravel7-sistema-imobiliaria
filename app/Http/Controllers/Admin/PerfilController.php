@@ -6,22 +6,35 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Perfil;
 use App\Permissao;
+use Illuminate\Support\Facades\Gate;
 
 class PerfilController extends Controller
 {
     public function index()
     {
+        if(!Gate::allows('perfil_listar')){
+            return redirect(route('admin.principal'));
+        }
+
         $registros = Perfil::all();
         return view('admin.perfis.index', compact('registros'));
     }
 
     public function adicionar()
     {
+        if(!Gate::allows('perfil_adicionar')){
+            return redirect(route('admin.principal'));
+        }
+
         return view('admin.perfis.adicionar');
     }
 
     public function salvar(Request $request)
     {
+        if(!Gate::allows('perfil_adicionar')){
+            return redirect(route('admin.principal'));
+        }
+
         Perfil::create($request->all());
 
         $mensagem = [
@@ -34,6 +47,10 @@ class PerfilController extends Controller
 
     public function editar($id)
     {
+        if(!Gate::allows('perfil_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         if(Perfil::find($id)->nome == 'admin'){
             $mensagem = [
                 'msg'           => 'Não é possível editar o perfil de administrador!',
@@ -48,6 +65,10 @@ class PerfilController extends Controller
 
     public function atualizar(Request $request, $id)
     {
+        if(!Gate::allows('perfil_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         if(Perfil::find($id)->nome == 'admin'){
             $mensagem = [
                 'msg'           => 'Não é possível editar o perfil de administrador!',
@@ -68,6 +89,10 @@ class PerfilController extends Controller
 
     public function deletar($id)
     {
+        if(!Gate::allows('perfil_deletar')){
+            return redirect(route('admin.principal'));
+        }
+
         if(Perfil::find($id)->nome == 'admin'){
             $mensagem = [
                 'msg'           => 'Não é possível excluir o perfil de administrador!',
@@ -89,6 +114,10 @@ class PerfilController extends Controller
 
     public function permissao($id)
     {
+        if(!Gate::allows('perfil_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         $perfil          = Perfil::find($id);
         $permissao       = Permissao::all();
 
@@ -97,6 +126,10 @@ class PerfilController extends Controller
 
     public function salvarPermissao(Request $request, $id)
     {
+        if(!Gate::allows('perfil_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         $perfil         = Perfil::find($id);
         $permissao      = Permissao::find($request['permissao_id']);
         $perfil->adicionarPermissao($permissao);
@@ -105,6 +138,10 @@ class PerfilController extends Controller
 
     public function removerPermissao($id, $id_permissao)
     {
+        if(!Gate::allows('perfil_remover')){
+            return redirect(route('admin.principal'));
+        }
+
         $perfil         = Perfil::find($id);
         $permissao      = Permissao::find($id_permissao);
         $perfil->removerPermissao($permissao);

@@ -3,6 +3,7 @@
         @foreach ($slides as $slide)
             <li onclick="window.location='{{ $slide->link }}'">
                 <img src="{{asset($slide->imagem)}}" alt="{{$slide->titulo}}">
+
                 <div class="caption {{ $direcaoImagem[rand(0,2)] }}">
                     <h3>{{$slide->titulo}}</h3>
                     <h5>{{$slide->descricao}}</h5>

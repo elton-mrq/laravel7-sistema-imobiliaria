@@ -70,4 +70,18 @@ class User extends Authenticatable
             Perfil::where('nome', '=', $perfil->nome)->firstOrFail()
         );
     }
+
+    public function existePerfil($perfil)
+    {
+        if(is_string($perfil)){
+            return $this->listaPerfil->contains('nome', $perfil);
+        }
+
+        return $perfil->intersect($this->listaPerfil)->count();
+    }
+
+    public function perfilAdmin()
+    {
+        return $this->existePerfil('admin');
+    }
 }

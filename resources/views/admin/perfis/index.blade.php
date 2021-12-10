@@ -32,9 +32,13 @@
                             <td>{{ $registro->descricao }}</td>
                             <td>
                                 @if ($registro->nome != 'admin')
-                                    <a href="{{ route('admin.perfil.editar', $registro->id) }}" class="btn orange">Editar</a>
+                                    @can('perfil_editar')
+                                        <a href="{{ route('admin.perfil.editar', $registro->id) }}" class="btn orange">Editar</a>
+                                    @endcan
                                     <a href="{{ route('admin.perfil.permissao', $registro->id) }}" class="btn blue">Permissao</a>
-                                    <a href="javascript: if(confirm('Deseja realmente deletar o registro?')){ window.location.href='{{ route('admin.perfil.deletar', $registro->id) }}' }" class="btn red">Excluir</a>
+                                    @can('perfil_deletar')
+                                        <a href="javascript: if(confirm('Deseja realmente deletar o registro?')){ window.location.href='{{ route('admin.perfil.deletar', $registro->id) }}' }" class="btn red">Excluir</a>
+                                    @endcan
                                 @else
                                     <a href="" class="btn orange disabled">Editar</a>
                                     <a href="" class="btn red disabled">Excluir</a>

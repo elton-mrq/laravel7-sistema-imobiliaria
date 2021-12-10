@@ -7,7 +7,18 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ isset($seo['titulo']) ? $seo['titulo'] : config('seo.titulo') }}</title>
+    <meta name="description" content="{{ isset($seo['descricao']) ?: config('seo.descricao') }}">
+
+    <!-- Twiter Card Data-->
+    <meta name="twiter:card" value="summary">
+
+    <!-- Open Graph -->
+    <meta property="org:title" content="{{ isset($seo['titulo']) ?: config('seo.titulo') }}">
+    <meta property="org:type" content="website">
+    <meta property="org:url" content="{{ isset($seo['url']) ?: config('app.url') }}">
+    <meta property="org:image" content="{{ isset($seo['imagem']) ?: config('seo.imagem')}}">
+    <meta property="org:description" content="{{ isset($seo['descricao']) ?: config('seo.imagem') }}">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

@@ -43,22 +43,30 @@ class UsuarioController extends Controller
 
     public function index()
     {
-        if(Gate::allows('listar-usuarios', true)){
-            dd('autorizado');
+        if(Gate::allows('usuario_listar')){
+            $usuarios = User::all();
+            return view('admin.usuarios.index', compact('usuarios'));
         }else {
-            dd('não autorizado');
+            return redirect(route('admin.principal'));
         }
-        $usuarios = User::all();
-        return view('admin.usuarios.index', compact('usuarios'));
+
     }
 
     public function adicionar()
     {
+        if(!Gate::allows('usuario_adicionar')){
+            return redirect(route('admin.principal'));
+        }
+
         return view('admin.usuarios.adicionar');
     }
 
     public function salvar(Request $request)
     {
+        if(!Gate::allows('usuario_adicionar')){
+            return redirect(route('admin.principal'));
+        }
+
         $dados = $request->all();
         $usuario = new User();
         $usuario->name      = $dados['name'];
@@ -77,12 +85,20 @@ class UsuarioController extends Controller
 
     public function editar($id)
     {
+        if(!Gate::allows('usuario_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         $usuario = User::find($id);
         return view('admin.usuarios.editar', compact('usuario'));
     }
 
     public function atualizar(Request $request, $id)
     {
+        if(!Gate::allows('usuario_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         $usuario = User::find($id);
         $dados   = $request->all();
 
@@ -104,6 +120,10 @@ class UsuarioController extends Controller
 
     public function deletar($id)
     {
+        if(!Gate::allows('usuario_deletar')){
+            return redirect(route('admin.principal'));
+        }
+
         User::find($id)->delete();
 
         $mensagem = [
@@ -117,6 +137,10 @@ class UsuarioController extends Controller
 
     public function perfil($id)
     {
+        if(!Gate::allows('usuario_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         $usuario    = User::find($id);
         $perfis     = Perfil::all();
 
@@ -125,6 +149,10 @@ class UsuarioController extends Controller
 
     public function salvarPerfil(Request $request, $id)
     {
+        if(!Gate::allows('usuario_editar')){
+            return redirect(route('admin.principal'));
+        }
+
         $usuario    = User::find($id);
         $dados      = $request->all();
         $perfil     = Perfil::find($dados['perfil_id']);
@@ -134,6 +162,10 @@ class UsuarioController extends Controller
 
     public function removerPerfil($id, $perfil_id)
     {
+        if(Gate::allows('usuario_deletar')){
+            return redirect(route('admin.principal'));
+        }
+        
         $usuario    = User::find($id);
         $perfil     = Perfil::find($perfil_id);
         $usuario->removePerfil($perfil);
